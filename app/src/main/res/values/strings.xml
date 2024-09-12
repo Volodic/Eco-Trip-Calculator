@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CO2 Checker Test</string>
+    
+    <string name="legend_title">Legend:</string>
 </resources>
