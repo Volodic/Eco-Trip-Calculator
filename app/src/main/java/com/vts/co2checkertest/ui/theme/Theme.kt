@@ -5,7 +5,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 private val MainTheme = lightColorScheme(
-    background = LightGrey
+    background = LightGray
 )
 
 @Composable

@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">CO2 Checker Test</string>
     
+    <!--Screens-->
+    <string name="statistics_screen">Statistics</string>
+    <string name="notes_screen">Notes</string>
+    <string name="history_screen">History</string>
+
     <string name="legend_title">Legend:</string>
+    <string name="add_note_text">New note:</string>
+    <string name="category_transport_text">Transport type</string>
+    <string name="distance_value_label">Distance (km), e.g. 132</string>
+    <string name="clear_button_text">Clear</string>
+    <string name="add_button_text">Add</string>
+    <string name="latest_notes_text">Latest notes:</string>
+    <string name="transport_type_label">Select transport:</string>
 </resources>

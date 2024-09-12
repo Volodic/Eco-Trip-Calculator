@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.vts.co2checkertest.model.ChartData
 import com.vts.co2checkertest.ui.theme.Blue
 import com.vts.co2checkertest.ui.theme.Green
-import com.vts.co2checkertest.ui.theme.Grey
+import com.vts.co2checkertest.ui.theme.Gray
 import com.vts.co2checkertest.ui.theme.Red
 import com.vts.co2checkertest.ui.theme.Typography
 import com.vts.co2checkertest.ui.theme.White
@@ -49,7 +49,7 @@ fun BarChart(data: List<Float>, labels: List<String>) {
             val yOffset = size.height - yValue * scaleFactor
 
             drawLine(
-                color = Grey,
+                color = Gray,
                 start = Offset(0f, yOffset),
                 end = Offset(size.width, yOffset),
                 strokeWidth = 1.dp.toPx()

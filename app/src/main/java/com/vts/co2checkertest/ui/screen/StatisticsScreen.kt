@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vts.co2checkertest.R
 import com.vts.co2checkertest.model.ChartData
 import com.vts.co2checkertest.ui.component.BarChart
@@ -29,7 +30,7 @@ import com.vts.co2checkertest.ui.theme.White
 import com.vts.co2checkertest.ui.theme.Yellow
 
 @Composable
-fun StatisticsScreen() {
+fun StatisticsScreen(navController: NavController, title: String) {
     val data = listOf(120f, 80f, 100f, 40f)
     val labels = listOf("Car", "Bus", "Train", "Bike")
 
@@ -40,50 +41,46 @@ fun StatisticsScreen() {
         ChartData(value = 25f, color = Red, transportType = "Bike")
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(
-            text = "Statistics",
-            style = Typography.titleLarge,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        Card(
-            colors = CardDefaults.cardColors(
-                containerColor = White
-            ),
+    ScaffoldWithDrawer(title = title, navController = navController) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp),
-            shape = RoundedCornerShape(12.dp),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
-            )
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Box(
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = White
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                contentAlignment = Alignment.Center
+                shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 8.dp
+                )
             ) {
-                BarChart(data = data, labels = labels)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    BarChart(data = data, labels = labels)
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = stringResource(id = R.string.legend_title),
-            style = Typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+            Text(
+                text = stringResource(id = R.string.legend_title),
+                style = Typography.bodyLarge,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-        chartData.forEach { chartData ->
-            LegendItem(chartData = chartData)
+            chartData.forEach { chartData ->
+                LegendItem(chartData = chartData)
+            }
         }
     }
 }

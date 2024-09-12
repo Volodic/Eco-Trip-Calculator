@@ -70,6 +70,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    implementation(libs.navigation.compose)
+
     implementation(libs.sqlite.bundled)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
