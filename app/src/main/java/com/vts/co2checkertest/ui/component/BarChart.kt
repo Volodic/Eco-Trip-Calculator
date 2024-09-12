@@ -22,7 +22,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
-import com.vts.co2checkertest.model.ChartData
+import com.vts.co2checkertest.data.model.ChartData
 import com.vts.co2checkertest.ui.theme.Blue
 import com.vts.co2checkertest.ui.theme.Green
 import com.vts.co2checkertest.ui.theme.Gray

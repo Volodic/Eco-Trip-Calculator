@@ -1,4 +1,4 @@
-package com.vts.co2checkertest.model
+package com.vts.co2checkertest.data.model
 
 import androidx.compose.ui.graphics.Color
 

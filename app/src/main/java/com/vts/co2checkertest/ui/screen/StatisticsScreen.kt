@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.vts.co2checkertest.R
-import com.vts.co2checkertest.model.ChartData
+import com.vts.co2checkertest.data.model.ChartData
 import com.vts.co2checkertest.ui.component.BarChart
 import com.vts.co2checkertest.ui.component.LegendItem
 import com.vts.co2checkertest.ui.theme.Blue
