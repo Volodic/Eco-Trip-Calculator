@@ -32,15 +32,15 @@ import com.vts.co2checkertest.ui.theme.White
 import com.vts.co2checkertest.ui.theme.Yellow
 
 @Composable
-fun BarChart(data: List<Float>, labels: List<String>) {
-    val maxDataValue = data.maxOrNull() ?: 1f
+fun BarChart(chartData: List<ChartData>) {
+    val maxDataValue = chartData.maxOfOrNull { it.value!!.toFloat() } ?: 1f
     val yAxisStep = maxDataValue / 5
 
     Canvas(modifier = Modifier
         .fillMaxWidth()
         .height(300.dp)
         .padding(16.dp)) {
-        val barWidth = size.width / (data.size * 2)
+        val barWidth = size.width / (chartData.size * 2)
         val scaleFactor = size.height / maxDataValue
         val offsetX = size.width / 8
 
@@ -57,7 +57,7 @@ fun BarChart(data: List<Float>, labels: List<String>) {
 
             drawContext.canvas.nativeCanvas.apply {
                 drawText(
-                    "${yValue.toInt()} g/km",
+                    "${yValue.toInt()} kg/km",
                     0f,
                     yOffset - 10,
                     Paint().apply {
@@ -68,36 +68,51 @@ fun BarChart(data: List<Float>, labels: List<String>) {
             }
         }
 
-        data.forEachIndexed { index, value ->
-            val barHeight = value * scaleFactor
-            val topLeftX = index * 1.5f * barWidth + barWidth + offsetX
-            val topRightX = topLeftX + barWidth
-            val topY = size.height - barHeight
-            val bottomY = size.height
-            val path = Path().apply {
-                moveTo(topLeftX, bottomY)
-                lineTo(topLeftX, topY + 8.dp.toPx())
-                quadraticBezierTo(
-                    topLeftX,
-                    topY,
-                    topLeftX + 8.dp.toPx(),
-                    topY
-                )
-                lineTo(topRightX - 8.dp.toPx(), topY)
-                quadraticBezierTo(
-                    topRightX,
-                    topY,
-                    topRightX,
-                    topY + 8.dp.toPx()
-                )
-                lineTo(topRightX, bottomY)
-                close()
-            }
+        chartData.forEachIndexed { index, data ->
+            if (data.value!! > 0) {
+                val barHeight = data.value.times(scaleFactor)
+                val topLeftX = index * 1.5f * barWidth + barWidth + offsetX
+                val topRightX = topLeftX + barWidth
+                val topY = size.height - barHeight
+                val bottomY = size.height
+                val path = Path().apply {
+                    moveTo(topLeftX, bottomY)
+                    lineTo(topLeftX, (topY + 8.dp.toPx()).toFloat())
+                    quadraticBezierTo(
+                        topLeftX,
+                        topY.toFloat(),
+                        topLeftX + 8.dp.toPx(),
+                        topY.toFloat()
+                    )
+                    lineTo(topRightX - 8.dp.toPx(), topY.toFloat())
+                    quadraticBezierTo(
+                        topRightX,
+                        topY.toFloat(),
+                        topRightX,
+                        (topY + 8.dp.toPx()).toFloat()
+                    )
+                    lineTo(topRightX, bottomY)
+                    close()
+                }
 
-            drawPath(
-                path = path,
-                color = listOf(Blue, Green, Yellow, Red)[index]
-            )
+                drawPath(
+                    path = path,
+                    color = listOf(Blue, Green, Yellow, Red)[index]
+                )
+
+                drawContext.canvas.nativeCanvas.apply {
+                    drawText(
+                        data.value.toString(),
+                        topLeftX + barWidth / 2,
+                        size.height + 40,
+                        Paint().apply {
+                            color = android.graphics.Color.BLACK
+                            textAlign = Paint.Align.CENTER
+                            textSize = 32f
+                        }
+                    )
+                }
+            }
         }
     }
 }

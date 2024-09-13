@@ -13,34 +13,30 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.vts.co2checkertest.R
-import com.vts.co2checkertest.data.model.ChartData
 import com.vts.co2checkertest.ui.component.BarChart
 import com.vts.co2checkertest.ui.component.LegendItem
 import com.vts.co2checkertest.ui.component.ScaffoldWithDrawer
-import com.vts.co2checkertest.ui.theme.Blue
-import com.vts.co2checkertest.ui.theme.Green
-import com.vts.co2checkertest.ui.theme.Red
 import com.vts.co2checkertest.ui.theme.Typography
 import com.vts.co2checkertest.ui.theme.White
-import com.vts.co2checkertest.ui.theme.Yellow
 
 @Composable
-fun StatisticsScreen(navController: NavController, title: String) {
-    val data = listOf(120f, 80f, 100f, 40f)
-    val labels = listOf("Car", "Bus", "Train", "Bike")
+fun StatisticsScreen(navController: NavController, title: String, statisticsViewModel: StatisticsViewModel = viewModel()) {
 
-    val chartData = listOf(
-        ChartData(value = 100f, color = Blue, transportType = "Car"),
-        ChartData(value = 75f, color = Green, transportType = "Bus"),
-        ChartData(value = 50f, color = Yellow, transportType = "Train"),
-        ChartData(value = 25f, color = Red, transportType = "Bike")
-    )
+    LaunchedEffect(Unit) {
+        statisticsViewModel.loadData()
+    }
+
+    val statisticsData by remember { statisticsViewModel.chartData }
 
     ScaffoldWithDrawer(title = title, navController = navController) {
         Column(
@@ -67,7 +63,7 @@ fun StatisticsScreen(navController: NavController, title: String) {
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    BarChart(data = data, labels = labels)
+                    BarChart(statisticsData)
                 }
             }
 
@@ -79,7 +75,7 @@ fun StatisticsScreen(navController: NavController, title: String) {
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            chartData.forEach { chartData ->
+            statisticsData.forEach { chartData ->
                 LegendItem(chartData = chartData)
             }
         }

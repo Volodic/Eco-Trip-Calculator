@@ -13,6 +13,7 @@ import com.vts.co2checkertest.ui.screen.history.HistoryScreen
 import com.vts.co2checkertest.ui.screen.notes.NotesScreen
 import com.vts.co2checkertest.ui.screen.notes.NotesViewModel
 import com.vts.co2checkertest.ui.screen.statistics.StatisticsScreen
+import com.vts.co2checkertest.ui.screen.statistics.StatisticsViewModel
 
 @Composable
 fun AppNavigation(startDestination: String) {
@@ -24,7 +25,8 @@ fun AppNavigation(startDestination: String) {
             arguments = listOf(navArgument("title") { type = NavType.StringType})
         ) { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: stringResource(id = R.string.statistics_screen)
-            StatisticsScreen(navController, title = title)
+            val viewModel = hiltViewModel<StatisticsViewModel>()
+            StatisticsScreen(navController, title = title, viewModel)
         }
         composable(
             "screen2/{title}",
