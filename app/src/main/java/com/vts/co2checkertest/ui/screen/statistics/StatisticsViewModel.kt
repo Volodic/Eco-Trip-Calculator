@@ -7,7 +7,6 @@ import com.vts.co2checkertest.constants.Co2EmissionFactor
 import com.vts.co2checkertest.constants.TransportColor
 import com.vts.co2checkertest.constants.TransportType
 import com.vts.co2checkertest.data.model.ChartData
-import com.vts.co2checkertest.data.model.TripData
 import com.vts.co2checkertest.domain.usecase.GetTripsByTransportCodeUseCase
 import com.vts.co2checkertest.ui.theme.Gray
 import com.vts.co2checkertest.utils.toFixedDecimalPlaces

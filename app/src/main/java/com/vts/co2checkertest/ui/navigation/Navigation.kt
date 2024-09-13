@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.vts.co2checkertest.R
 import com.vts.co2checkertest.ui.screen.history.HistoryScreen
+import com.vts.co2checkertest.ui.screen.history.HistoryViewModel
 import com.vts.co2checkertest.ui.screen.notes.NotesScreen
 import com.vts.co2checkertest.ui.screen.notes.NotesViewModel
 import com.vts.co2checkertest.ui.screen.statistics.StatisticsScreen
@@ -41,7 +42,8 @@ fun AppNavigation(startDestination: String) {
             arguments = listOf(navArgument("title") { type = NavType.StringType})
         ) { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: stringResource(id = R.string.history_screen)
-            HistoryScreen(navController, title = title)
+            val viewModel = hiltViewModel<HistoryViewModel>()
+            HistoryScreen(navController, title = title, viewModel)
         }
     }
 }
