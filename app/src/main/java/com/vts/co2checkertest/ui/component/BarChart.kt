@@ -44,6 +44,10 @@ fun BarChart(chartData: List<ChartData>) {
         val scaleFactor = size.height / maxDataValue
         val offsetX = size.width / 8
 
+        /**
+         * Creating y axis marks for easier determination of
+         * the chart column and better perception.
+         */
         for (i in 0..5) {
             val yValue = i * yAxisStep
             val yOffset = size.height - yValue * scaleFactor
@@ -68,6 +72,9 @@ fun BarChart(chartData: List<ChartData>) {
             }
         }
 
+        /**
+         * Creating chart's column from received data.
+         */
         chartData.forEachIndexed { index, data ->
             if (data.value!! > 0) {
                 val barHeight = data.value.times(scaleFactor)
@@ -100,6 +107,9 @@ fun BarChart(chartData: List<ChartData>) {
                     color = listOf(Blue, Green, Yellow, Red)[index]
                 )
 
+                /**
+                 * Adding column's value to see calculation results/
+                 */
                 drawContext.canvas.nativeCanvas.apply {
                     drawText(
                         data.value.toString(),

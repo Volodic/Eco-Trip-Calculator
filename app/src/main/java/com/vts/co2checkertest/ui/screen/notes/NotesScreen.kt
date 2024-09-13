@@ -241,7 +241,7 @@ fun NotesScreen(navController: NavController, title: String, notesViewModel: Not
 
                                     val formattedDistance = formatDistanceInput(distance)
 
-                                    notesViewModel.addNewTrip(selectedTransport, formattedDistance.toDouble())
+                                    notesViewModel.addNewTrip(selectedTransport, formattedDistance.convertStringToDouble())
 
                                     selectedTransport = ""
                                     distance = ""

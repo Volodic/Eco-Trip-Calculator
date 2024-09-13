@@ -29,6 +29,11 @@ fun CustomLazyColumn(
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        /**
+         * Customizing LazyColumn to make it reusable on different
+         * screens. We using stickyHeader to group items instead of
+         * maxItems argument.
+         */
         if (maxItems == null) {
             groupedTrips.forEach { (date, tripsOnDate) ->
                 stickyHeader {

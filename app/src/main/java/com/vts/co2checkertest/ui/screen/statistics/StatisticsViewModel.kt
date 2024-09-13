@@ -11,6 +11,7 @@ import com.vts.co2checkertest.domain.usecase.GetTripsByTransportCodeUseCase
 import com.vts.co2checkertest.ui.theme.Gray
 import com.vts.co2checkertest.utils.toFixedDecimalPlaces
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class StatisticsViewModel @Inject constructor(
     val chartData = _chartData
 
     fun loadData() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val trips = mutableListOf<ChartData>()
 
             TransportType.entries.forEach { transportType ->
