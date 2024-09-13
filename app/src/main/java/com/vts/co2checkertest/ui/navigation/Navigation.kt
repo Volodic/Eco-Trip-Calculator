@@ -2,15 +2,17 @@ package com.vts.co2checkertest.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.vts.co2checkertest.R
-import com.vts.co2checkertest.ui.screen.HistoryScreen
-import com.vts.co2checkertest.ui.screen.NotesScreen
-import com.vts.co2checkertest.ui.screen.StatisticsScreen
+import com.vts.co2checkertest.ui.screen.history.HistoryScreen
+import com.vts.co2checkertest.ui.screen.notes.NotesScreen
+import com.vts.co2checkertest.ui.screen.notes.NotesViewModel
+import com.vts.co2checkertest.ui.screen.statistics.StatisticsScreen
 
 @Composable
 fun AppNavigation(startDestination: String) {
@@ -29,7 +31,8 @@ fun AppNavigation(startDestination: String) {
             arguments = listOf(navArgument("title") { type = NavType.StringType})
         ) { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: stringResource(id = R.string.notes_screen)
-            NotesScreen(navController, title = title)
+            val viewModel = hiltViewModel<NotesViewModel>()
+            NotesScreen(navController, title = title, viewModel)
         }
         composable(
             "screen3/{title}",

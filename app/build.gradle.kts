@@ -71,10 +71,11 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.sqlite.bundled)
     implementation(libs.room.runtime)
-    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.ksp)

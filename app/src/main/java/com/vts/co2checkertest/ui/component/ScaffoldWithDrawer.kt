@@ -1,4 +1,4 @@
-package com.vts.co2checkertest.ui.screen
+package com.vts.co2checkertest.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.vts.co2checkertest.ui.component.CenterAlignedTopAppBarImpl
 import com.vts.co2checkertest.ui.theme.AlphaBlack
 import com.vts.co2checkertest.ui.theme.LightGray
 import kotlinx.coroutines.launch

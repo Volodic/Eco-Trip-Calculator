@@ -12,6 +12,7 @@ activityCompose = "1.9.2"
 composeBom = "2024.04.01"
 composeCompiler = "1.5.15"
 
+hiltNavigationCompose = "1.2.0"
 navigationCompose = "2.7.7"
 navigationComposeVersion = "2.7.0-alpha07"
 
@@ -34,6 +35,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "composeCompiler" }
 
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 

@@ -1,4 +1,4 @@
-package com.vts.co2checkertest.ui.screen
+package com.vts.co2checkertest.ui.screen.statistics
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +22,7 @@ import com.vts.co2checkertest.R
 import com.vts.co2checkertest.data.model.ChartData
 import com.vts.co2checkertest.ui.component.BarChart
 import com.vts.co2checkertest.ui.component.LegendItem
+import com.vts.co2checkertest.ui.component.ScaffoldWithDrawer
 import com.vts.co2checkertest.ui.theme.Blue
 import com.vts.co2checkertest.ui.theme.Green
 import com.vts.co2checkertest.ui.theme.Red

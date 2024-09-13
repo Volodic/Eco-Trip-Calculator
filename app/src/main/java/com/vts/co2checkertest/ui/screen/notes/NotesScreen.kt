@@ -1,4 +1,4 @@
-package com.vts.co2checkertest.ui.screen
+package com.vts.co2checkertest.ui.screen.notes
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,23 +37,45 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.vts.co2checkertest.R
+import com.vts.co2checkertest.constants.TransportType
+import com.vts.co2checkertest.ui.component.CustomLazyColumn
+import com.vts.co2checkertest.ui.component.ScaffoldWithDrawer
 import com.vts.co2checkertest.ui.theme.Blue
+import com.vts.co2checkertest.ui.theme.ErrorRed
 import com.vts.co2checkertest.ui.theme.Gray
 import com.vts.co2checkertest.ui.theme.LabelText
+import com.vts.co2checkertest.ui.theme.Red
 import com.vts.co2checkertest.ui.theme.SelectionBlue
 import com.vts.co2checkertest.ui.theme.SemiLightGray
 import com.vts.co2checkertest.ui.theme.Typography
 import com.vts.co2checkertest.ui.theme.White
+import com.vts.co2checkertest.utils.convertStringToDouble
+import com.vts.co2checkertest.utils.formatDistanceInput
+import com.vts.co2checkertest.utils.validateDistanceInput
+import com.vts.co2checkertest.utils.validateTransportSelection
 
 @Composable
-fun NotesScreen(navController: NavController, title: String) {
+fun NotesScreen(navController: NavController, title: String, notesViewModel: NotesViewModel = viewModel()) {
 
-    val categories = listOf("Car", "Bus", "Train", "Bike")
-    var selectedTransport by remember { mutableStateOf("") }
+    val categories = TransportType.entries.map { it.displayName }
+
     var expanded by remember { mutableStateOf(false) }
+    var transportFieldColor by remember { mutableStateOf(SemiLightGray) }
+    var distanceFieldColor by remember { mutableStateOf(SemiLightGray) }
+    var transportErrorText by remember { mutableStateOf("") }
+    var distanceErrorText by remember { mutableStateOf("") }
+
+    var selectedTransport by remember { mutableStateOf("") }
     var distance by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        notesViewModel.getAllTrips()
+    }
+
+    val userTrips by remember { notesViewModel.trips }
 
     ScaffoldWithDrawer(title = title, navController = navController) {
         Column(
@@ -86,7 +109,7 @@ fun NotesScreen(navController: NavController, title: String) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(SemiLightGray, RoundedCornerShape(12.dp))
+                            .background(transportFieldColor, RoundedCornerShape(12.dp))
                             .clickable { expanded = !expanded }
                             .padding(horizontal = 12.dp, vertical = 12.dp)
                             .height(32.dp)
@@ -111,16 +134,16 @@ fun NotesScreen(navController: NavController, title: String) {
                                 .background(SemiLightGray)
                                 .width(200.dp)
                         ) {
-                            categories.forEach { category ->
+                            categories.forEach { type ->
                                 DropdownMenuItem(
                                     text = {
                                         Text(
-                                            text = category,
+                                            text = type,
                                             style = Typography.bodyLarge
                                         )
                                     },
                                     onClick = {
-                                        selectedTransport = category
+                                        selectedTransport = type
                                         expanded = false
                                     },
                                     modifier = Modifier
@@ -129,6 +152,14 @@ fun NotesScreen(navController: NavController, title: String) {
                                 )
                             }
                         }
+                    }
+
+                    if (transportErrorText.isNotEmpty()) {
+                        Text(
+                            text = transportErrorText,
+                            color = Red,
+                            style = Typography.bodyMedium
+                        )
                     }
 
                     TextField(
@@ -147,8 +178,8 @@ fun NotesScreen(navController: NavController, title: String) {
                         colors = TextFieldDefaults.colors(
                             focusedTextColor = Gray,
                             unfocusedTextColor = Gray,
-                            focusedContainerColor = SemiLightGray,
-                            unfocusedContainerColor = SemiLightGray,
+                            focusedContainerColor = distanceFieldColor,
+                            unfocusedContainerColor = distanceFieldColor,
                             cursorColor = Gray,
                             selectionColors = TextSelectionColors(
                                 handleColor = Gray,
@@ -161,6 +192,14 @@ fun NotesScreen(navController: NavController, title: String) {
                         singleLine = true
                     )
 
+                    if (distanceErrorText.isNotEmpty()) {
+                        Text(
+                            text = distanceErrorText,
+                            color = Red,
+                            style = Typography.bodyMedium
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Row(
@@ -168,7 +207,10 @@ fun NotesScreen(navController: NavController, title: String) {
                         horizontalArrangement = Arrangement.Absolute.SpaceBetween
                     ) {
                         OutlinedButton(
-                            onClick = { /*TODO*/ },
+                            onClick = {
+                                selectedTransport = ""
+                                distance = ""
+                            },
                             modifier = Modifier.weight(1f),
                             border = BorderStroke(2.dp, Gray),
                             shape = RoundedCornerShape(12.dp)
@@ -182,7 +224,29 @@ fun NotesScreen(navController: NavController, title: String) {
                         Spacer(modifier = Modifier.width(16.dp))
 
                         OutlinedButton(
-                            onClick = { /*TODO*/ },
+                            onClick = {
+                                if (!validateTransportSelection(selectedTransport)) {
+                                    transportFieldColor = ErrorRed
+                                    transportErrorText = "Chose transport"
+                                }
+
+                                if (!validateDistanceInput(distance)) {
+                                    distanceFieldColor = ErrorRed
+                                    distanceErrorText = "Invalid distance"
+                                } else {
+                                    transportFieldColor = SemiLightGray
+                                    distanceFieldColor = SemiLightGray
+                                    transportErrorText = ""
+                                    distanceErrorText = ""
+
+                                    val formattedDistance = formatDistanceInput(distance)
+
+                                    notesViewModel.addNewTrip(selectedTransport, formattedDistance.toDouble())
+
+                                    selectedTransport = ""
+                                    distance = ""
+                                }
+                            },
                             modifier = Modifier.weight(1f),
                             colors = ButtonDefaults.outlinedButtonColors(contentColor = Blue),
                             border = BorderStroke(2.dp, Blue),
@@ -200,10 +264,11 @@ fun NotesScreen(navController: NavController, title: String) {
 
             Text(
                 text = stringResource(id = R.string.latest_notes_text),
-                style = Typography.bodyLarge
+                style = Typography.bodyLarge,
+                modifier = Modifier.padding(start = 12.dp)
             )
 
-
+            CustomLazyColumn(trips = userTrips, 5)
         }
     }
 }

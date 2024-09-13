@@ -15,6 +15,7 @@ val SelectionBlue = Color(0x553989F1)
 val Green = Color(0xFF6BE533)
 val Yellow = Color(0xFFF8C417)
 val Red = Color(0xFFF07070)
+val ErrorRed = Color(0x55F07070)
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
